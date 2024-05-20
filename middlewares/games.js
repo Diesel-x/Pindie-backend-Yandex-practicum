@@ -1,17 +1,15 @@
-const { readData } = require("../utils/data");
+// Файл middlewares/games.js
 
-const getAllGames = async (req, res, next) => {
-  const games = await readData("./data/games.json");
-  if (!games) {
-    res.status(400);
-    res.send({
-      status: "error",
-      message: "Нет игр в базе данных. Добавьте игру.",
-    });
-    return;
-  }
-  req.games = games;
+// Импортируем модель
+const games = require("../models/game");
+
+const findAllGames = async (req, res, next) => {
+  req.gamesArray = await games
+    .find({})
+    .populate("categories")
+    .populate("users");
   next();
 };
 
-module.exports = { getAllGames };
+// Экспортируем функцию поиска всех игр
+module.exports = findAllGames;

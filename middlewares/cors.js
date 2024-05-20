@@ -9,6 +9,8 @@ function cors(req, res, next) {
   next();
 }
 
+module.exports = cors;
+
 const allowedCors = [
   "https://practicum.yandex.ru",
   "https://students-projects.ru",

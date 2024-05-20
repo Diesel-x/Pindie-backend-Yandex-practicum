@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-// const usersRouter = require("./routes/users");
+const usersRouter = require("./routes/users");
 const gamesRouter = require("./routes/games");
-// const categoriesRouter = require("mongod");
+const categoriesRouter = require("./routes/categories");
 
 const connectToDatabase = require("./database/connect");
 const cors = require("./middlewares/cors");

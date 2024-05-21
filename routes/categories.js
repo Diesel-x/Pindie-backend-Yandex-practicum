@@ -1,7 +1,6 @@
-// Создаём роут для запросов категорий
 const categoriesRouter = require("express").Router();
+const { checkAuth } = require("../middlewares/auth.js");
 
-// Импортируем вспомогательные функции
 const {
   findAllCategories,
   createCategory,
@@ -27,11 +26,22 @@ categoriesRouter.post(
   createCategory,
   sendCategoryCreated,
   checkIsCategoryExists,
-  checkEmptyName
+  checkEmptyName,
+  checkAuth
 );
 categoriesRouter.get("/categories/:id", findCategoryById, sendCategoryById);
-categoriesRouter.put("/categories/:id", updateCategory, sendCategoryUpdated);
-categoriesRouter.delete("/categories/:id", deleteCategory, sendCategoryDeleted);
+categoriesRouter.put(
+  "/categories/:id",
+  updateCategory,
+  sendCategoryUpdated,
+  checkAuth
+);
+categoriesRouter.delete(
+  "/categories/:id",
+  deleteCategory,
+  sendCategoryDeleted,
+  checkAuth
+);
 
 // Экспортируем роут для использования в приложении — app.js
 module.exports = categoriesRouter;

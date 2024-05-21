@@ -19,8 +19,12 @@ const {
   sendUserById,
   sendUserUpdated,
   sendUserDeleted,
+  sendMe,
 } = require("../controllers/users");
 
+const { checkAuth } = require("../middlewares/auth");
+
+usersRouter.get("/me", checkAuth, sendMe);
 usersRouter.get("/users", findAllUsers, sendAllUsers);
 usersRouter.post(
   "/users",
@@ -29,16 +33,18 @@ usersRouter.post(
   sendUserCreated,
   checkEmptyNameAndEmailAndPassword,
   checkIsUserExists,
-  hashPassword
+  hashPassword,
+  checkAuth
 );
 usersRouter.get("/users/:id", findUserById, sendUserById);
 usersRouter.put(
   "/users/:id",
   updateUser,
   sendUserUpdated,
-  checkEmptyNameAndEmail
+  checkEmptyNameAndEmail,
+  checkAuth
 );
-usersRouter.delete("/users/:id", deleteUser, sendUserDeleted);
+usersRouter.delete("/users/:id", deleteUser, sendUserDeleted, checkAuth);
 
 // Экспортируем роут для использования в приложении — app.js
 module.exports = usersRouter;

@@ -4,21 +4,20 @@
 const games = require("../models/game");
 
 const findAllGames = async (req, res, next) => {
-  req.gamesArray = await games
-    .find({})
-    .populate("categories")
-    .populate({ path: "users", select: "-password" });
-};
-const createGame = async (req, res, next) => {
-  console.log("POST /games");
-  try {
-    console.log(req.body);
-    req.game = await games.create(req.body);
+  // Поиск всех игр в проекте по заданной категории
+  if (req.query["categories.name"]) {
+    req.gamesArray = await games.findGameByCategory(
+      req.query["categories.name"]
+    );
     next();
-  } catch (error) {
-    res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Ошибка создания игры" }));
+    return;
   }
+  // Поиск всех игр в проекте
+  req.gamesArray = await games.find({}).populate("categories").populate({
+    path: "users",
+    select: "-password", // Исключим данные о паролях пользователей
+  });
+  next();
 };
 
 const findGameById = async (req, res, next) => {

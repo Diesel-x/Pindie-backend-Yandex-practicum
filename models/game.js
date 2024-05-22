@@ -37,13 +37,6 @@ const gameSchema = new mongoose.Schema({
   ],
 });
 
-// Добавим метод для поиска игр по категории
-gameSchema.statics.findGameByCategory = function (category) {
-  //...
-};
-
-module.exports = mongoose.model("game", gameSchema);
-
 gameSchema.statics.findGameByCategory = function (category) {
   return this.find({}) // Выполним поиск всех игр
     .populate({

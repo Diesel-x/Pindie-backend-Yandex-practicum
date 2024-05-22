@@ -26,14 +26,13 @@ const { checkAuth } = require("../middlewares/auth.js");
 
 gamesRouter.post(
   "/games",
-  createGame,
   findAllGames,
-  sendGameCreated,
   checkIsGameExists,
   checkIfCategoriesAvaliable,
   checkEmptyFields,
   checkAuth,
-  checkIsVoteRequest
+  createGame,
+  sendGameCreated
 );
 gamesRouter.get("/games", findAllGames, sendAllGames);
 gamesRouter.put(

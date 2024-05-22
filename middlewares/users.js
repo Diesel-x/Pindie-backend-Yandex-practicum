@@ -48,7 +48,7 @@ const findUserById = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     // В метод передаём id из параметров запроса и объект с новыми свойствами
-    req.game = await users.findByIdAndUpdate(req.params.id, req.body);
+    req.user = await users.findByIdAndUpdate(req.params.id, req.body);
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
@@ -60,7 +60,7 @@ const updateUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
-    req.game = await games.findByIdAndDelete(req.params.id);
+    req.user = await users.findByIdAndDelete(req.params.id);
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");

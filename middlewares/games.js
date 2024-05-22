@@ -1,6 +1,3 @@
-// Файл middlewares/games.js
-
-// Импортируем модель
 const games = require("../models/game");
 
 const findAllGames = async (req, res, next) => {
@@ -11,11 +8,10 @@ const findAllGames = async (req, res, next) => {
     next();
     return;
   }
-  // Поиск всех игр в проекте
-  req.gamesArray = await games.find({}).populate("categories").populate({
-    path: "users",
-    select: "-password", // Исключим данные о паролях пользователей
-  });
+  req.gamesArray = await games
+    .find({})
+    .populate("categories")
+    .populate({ path: "users", select: "-password" });
   next();
 };
 
@@ -41,6 +37,7 @@ const createGame = async (req, res, next) => {
     req.game = await games.create(req.body);
     next();
   } catch (error) {
+    ё;
     res.setHeader("Content-Type", "application/json");
     res.status(400).send(JSON.stringify({ message: "Ошибка создания игры" }));
   }

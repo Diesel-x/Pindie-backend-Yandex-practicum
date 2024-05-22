@@ -14,7 +14,7 @@ const PORT = 3001;
 connectToDatabase();
 
 app.use(
-  // cors,
+  cors,
   cookieParser(),
   bodyParser.json(),
   apiRouter,

@@ -54,7 +54,10 @@ const findCategoryById = async (req, res, next) => {
 
 const updateCategory = async (req, res, next) => {
   try {
-    req.game = await categories.findByIdAndUpdate(req.params.id, req.body);
+    req.categories = await categories.findByIdAndUpdate(
+      req.params.id,
+      req.body
+    );
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
@@ -66,7 +69,7 @@ const updateCategory = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
   try {
-    req.game = await games.findByIdAndDelete(req.params.id);
+    req.categories = await categories.findByIdAndDelete(req.params.id);
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");

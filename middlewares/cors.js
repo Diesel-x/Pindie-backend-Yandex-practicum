@@ -20,5 +20,6 @@ module.exports = cors;
 
 const allowedCors = [
   "https://diesel.nomoredomainswork.ru",
+  "https://diesel-front.nomoredomainswork.ru",
   "https://www.youtube.com/",
 ];

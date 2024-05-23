@@ -19,9 +19,6 @@ function cors(req, res, next) {
 module.exports = cors;
 
 const allowedCors = [
-  "https://practicum.yandex.ru",
-  "https://students-projects.ru",
-  "http://localhost:3000",
-  "http://localhost:3001",
+  "https://diesel.nomoredomainswork.ru",
   "https://www.youtube.com/",
 ];

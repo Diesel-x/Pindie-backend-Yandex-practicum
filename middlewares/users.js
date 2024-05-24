@@ -1,16 +1,10 @@
-// Файл middlewares/users.js
-
-// Импортируем модель
 const users = require("../models/user");
 const bcrypt = require("bcryptjs");
 
 const hashPassword = async (req, res, next) => {
   try {
-    // Создаём случайную строку длиной в десять символов
     const salt = await bcrypt.genSalt(10);
-    // Хешируем пароль
     const hash = await bcrypt.hash(req.body.password, salt);
-    // Полученный в запросе пароль подменяем на хеш
     req.body.password = hash;
     next();
   } catch (error) {
@@ -46,7 +40,6 @@ const findUserById = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   try {
-    // В метод передаём id из параметров запроса и объект с новыми свойствами
     req.user = await users.findByIdAndUpdate(req.params.id, req.body);
     next();
   } catch (error) {
@@ -59,7 +52,6 @@ const updateUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
-    // Методом findByIdAndDelete по id находим и удаляем документ из базы данных
     req.user = await users.findByIdAndDelete(req.params.id);
     next();
   } catch (error) {
@@ -105,7 +97,7 @@ const checkIsUserExists = async (req, res, next) => {
     next();
   }
 };
-// Экспортируем функцию поиска всех пользователей
+
 module.exports = {
   findAllUsers,
   createUser,

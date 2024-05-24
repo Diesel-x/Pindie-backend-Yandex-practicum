@@ -1,25 +1,20 @@
+
+  
+  
+const allowedCors = ["http://localhost:3000", "http://localhost:3001"];
+
 function cors(req, res, next) {
-  const { origin } = req.headers;
+    const { origin } = req.headers;
 
-  if (allowedCors.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
+    if (allowedCors.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
     res.header(
-      "Access-Control-Allow-Methods",
-      "GET,HEAD,PUT,PATCH,POST,DELETE"
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"
     );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"
-    );
-  }
-
-  next();
+    next();
 }
 
-module.exports = cors;
-
-const allowedCors = [
-  "https://diesel.nomoredomainswork.ru",
-  "https://diesel-front.nomoredomainswork.ru",
-  "https://www.youtube.com/",
-];
+module.exports = cors

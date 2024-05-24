@@ -1,50 +1,36 @@
-// Создаём роут для запросов категорий
-const usersRouter = require("express").Router();
 
-// Импортируем вспомогательные функции
-const {
-  findAllUsers,
-  createUser,
-  findUserById,
-  updateUser,
-  deleteUser,
-  checkEmptyNameAndEmailAndPassword,
-  checkEmptyNameAndEmail,
-  checkIsUserExists,
-  hashPassword,
-} = require("../middlewares/users");
-const {
-  sendAllUsers,
-  sendUserCreated,
-  sendUserById,
-  sendUserUpdated,
-  sendUserDeleted,
-  sendMe,
-} = require("../controllers/users");
+const usersRouter = require('express').Router();
 
-const { checkAuth } = require("../middlewares/auth");
 
-usersRouter.get("/me", checkAuth, sendMe);
-usersRouter.get("/users", findAllUsers, sendAllUsers);
+const {findAllUsers, createUser, findUserById, updateUser, deleteUser, checkEmptyNameAndEmail, checkIsUserExists, checkEmptyNameAndEmailAndPassword, hashPassword} = require('../middlewares/users');
+const {sendAllUsers, sendUserCreated, sendUserById, sendUserUpdated, sendUserDeleted, sendMe} = require('../controllers/users');
+const { checkAuth } = require('../middlewares/auth');
+
+
+usersRouter.get('/users', findAllUsers, sendAllUsers);
+
 usersRouter.post(
   "/users",
   findAllUsers,
-  createUser,
-  sendUserCreated,
-  checkEmptyNameAndEmailAndPassword,
   checkIsUserExists,
+  checkEmptyNameAndEmailAndPassword,
+  checkAuth,
   hashPassword,
-  checkAuth
-);
-usersRouter.get("/users/:id", findUserById, sendUserById);
-usersRouter.put(
-  "/users/:id",
-  updateUser,
-  sendUserUpdated,
-  checkEmptyNameAndEmail,
-  checkAuth
-);
-usersRouter.delete("/users/:id", deleteUser, sendUserDeleted, checkAuth);
+  createUser,
+  sendUserCreated
+); 
+ usersRouter.get('/users/:id', findUserById, sendUserById);
 
-// Экспортируем роут для использования в приложении — app.js
+ usersRouter.get("/me", checkAuth, sendMe); 
+
+ usersRouter.put(
+    "/users/:id",
+    checkEmptyNameAndEmail,
+    checkAuth,
+    updateUser,
+    sendUserUpdated
+  ); 
+
+  usersRouter.delete("/users/:id", checkAuth, deleteUser, sendUserDeleted);
+
 module.exports = usersRouter;

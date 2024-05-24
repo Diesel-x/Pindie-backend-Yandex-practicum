@@ -1,25 +1,8 @@
+// Файл middlewares/users.js
+
+// Импортируем модель
 const users = require("../models/user");
-const bcrypt = require("bcryptjs"); // Импортируем bcrypt
-
-const findAllUsers = async (req, res, next) => {
-  console.log("GET /api/users");
-  req.usersArray = await users.find({}, { password: 0 });
-  next();
-};
-
-const createUser = async (req, res, next) => {
-  console.log("POST /users");
-  try {
-    console.log(req.body);
-    req.user = await users.create(req.body);
-    next();
-  } catch (error) {
-    res.setHeader("Content-Type", "application/json");
-    res
-      .status(400)
-      .send(JSON.stringify({ message: "Ошибка создания пользователя" }));
-  }
-};
+const bcrypt = require("bcryptjs");
 
 const hashPassword = async (req, res, next) => {
   try {
@@ -35,13 +18,29 @@ const hashPassword = async (req, res, next) => {
   }
 };
 
-const findUserById = async (req, res, next) => {
-  console.log("GET /api/users/:id");
+const findAllUsers = async (req, res, next) => {
+  console.log("GET /api/users");
+  req.usersArray = await users.find({}, { password: 0 });
+  next();
+};
+
+const createUser = async (req, res, next) => {
   try {
-    req.user = await users.findById(req.params.id, { password: 0 });
+    req.user = await users.create(req.body);
     next();
   } catch (error) {
-    res.status(404).send("User not found");
+    res.status(400).send("Ошибка при создании пользователя");
+  }
+};
+
+const findUserById = async (req, res, next) => {
+  console.log("GET /users/:id");
+  try {
+    req.user = await users.findById(req.params.id);
+    next();
+  } catch (error) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(404).send(JSON.stringify({ message: "Пользователь не найден" }));
   }
 };
 
@@ -60,6 +59,7 @@ const updateUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
+    // Методом findByIdAndDelete по id находим и удаляем документ из базы данных
     req.user = await users.findByIdAndDelete(req.params.id);
     next();
   } catch (error) {
@@ -105,7 +105,6 @@ const checkIsUserExists = async (req, res, next) => {
     next();
   }
 };
-
 // Экспортируем функцию поиска всех пользователей
 module.exports = {
   findAllUsers,
